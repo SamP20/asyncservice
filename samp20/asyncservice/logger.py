@@ -15,22 +15,22 @@ class Logger:
         self.level = level
         self.topic = topic
 
-    async def critical(self, message, data):
+    async def critical(self, message, data=None):
         await self.log(LogLevel.CRITICAL, message, data)
 
-    async def error(self, message, data):
+    async def error(self, message, data=None):
         await self.log(LogLevel.ERROR, message, data)
 
-    async def warning(self, message, data):
+    async def warning(self, message, data=None):
         await self.log(LogLevel.WARNING, message, data)
 
-    async def info(self, message, data):
+    async def info(self, message, data=None):
         await self.log(LogLevel.INFO, message, data)
 
-    async def debug(self, message, data):
+    async def debug(self, message, data=None):
         await self.log(LogLevel.DEBUG, message, data)
 
-    async def log(self, level, message, data):
+    async def log(self, level, message, data=None):
         if level < self.level:
             return
         packet = msgpack.packb([level, message, data], use_bin_type=True)

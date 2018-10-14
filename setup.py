@@ -12,5 +12,5 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/samp20/uk-sampartridge-service',
     python_requires='~=3.7',
-    py_modules=['uk.sampartridge.sockets']
+    packages=find_namespace_packages()
 )

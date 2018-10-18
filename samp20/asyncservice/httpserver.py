@@ -1,10 +1,9 @@
-from .service import Service
 from aiohttp import web
 import asyncio
 import shutil
 import os
 
-class HttpServer(Service):
+class HttpServer:
     def __init__(self, config):
         self.path = config.get('path')
         self.user = config.get('user')

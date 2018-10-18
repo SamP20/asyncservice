@@ -67,14 +67,15 @@ class DictFormatter(logging.Formatter):
         return document
 
 
-class KafkaHandler(AsyncHandler):
-    def __init__(self, kafka, topic, level=logging.NOTSET):
+class AmqpHandler(AsyncHandler):
+    def __init__(self, channel, exchange, client_name, level=logging.NOTSET):
         super().__init__(level)
-        self.kafka = kafka
-        self.topic = topic
-        self.formatter = DictFormatter()
+        self.channel = channel
+        self.exchange = exchange
+        self.client_name = client_name
 
-    async def emit_async(self, record):
+    async def emit_asymc(self, record):
         document = self.format(record)
         data = msgpack.packb(document, use_bin_type=True, default=str)
-        await self.kafka.send_and_wait(self.topic, data)
+        routing_key = '.'.join([self.client_name, record.name, record.levelname])
+        await self.channel.publish(data, exchange_name=self.exchange, routing_key=routing_key)

@@ -1,7 +1,7 @@
 Asyncio service
 ==============
 
-Simple class to start and stop an asyncio service
+Base to build microservices upon.
 
 Version history
 ---------------

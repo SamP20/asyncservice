@@ -3,22 +3,27 @@ import asyncio
 import shutil
 import os
 
+
 class HttpServer:
     def __init__(self, config):
-        self.path = config.get('path')
-        self.user = config.get('user')
-        self.group = config.get('group')
-        self.permissions = config.get('permissions')
-        self.host = config.get('host', 'localhost')
-        self.port = int(config.get('port', 8080))
+        self.path = config.get("path")
+        self.user = config.get("user")
+        self.group = config.get("group")
+        self.permissions = config.get("permissions")
+        self.host = config.get("host", "localhost")
+        self.port = int(config.get("port", 8080))
 
     async def start(self):
         loop = asyncio.get_running_loop()
         self.http_server = web.Server(self.handle_request)
         if self.path is None:
-            self.socket_server = await loop.create_server(self.http_server, self.host, self.port)
+            self.socket_server = await loop.create_server(
+                self.http_server, self.host, self.port
+            )
         else:
-            self.socket_server = await loop.create_unix_server(self.http_server, self.path)
+            self.socket_server = await loop.create_unix_server(
+                self.http_server, self.path
+            )
             if self.user is not None or self.group is not None:
                 shutil.chown(self.path, self.user, self.group)
             if self.permissions is not None:

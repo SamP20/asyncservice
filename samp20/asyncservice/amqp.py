@@ -51,7 +51,7 @@ class AmqpLogHandler(AsyncHandler):
     async def emit_async(self, record):
         document = self.format(record)
         data = self.encoder(document)
-        routing_key = ".".join([self.client_name, record.name, record.levelname])
+        routing_key = ".".join(["log", record.levelname, self.client_name, record.name])
         await self.exchange.publish(
             aio_pika.Message(body=data, delivery_mode=aio_pika.DeliveryMode.PERSISTENT),
             routing_key=routing_key,

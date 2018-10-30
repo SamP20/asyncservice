@@ -1,6 +1,9 @@
 import aio_pika
 import logging
 from .logger import AsyncHandler, DictFormatter
+import gzip
+import json
+import msgpack
 
 
 class AmqpService:
@@ -33,7 +36,7 @@ class AmqpLogHandler(AsyncHandler):
         self.client_name = client_name
         if encoder is None:
             import msgpack
-            
+
             self.encoder = lambda d: msgpack.packb(d, use_bin_type=True, default=str)
         else:
             self.encoder = encoder
@@ -42,9 +45,7 @@ class AmqpLogHandler(AsyncHandler):
     async def start(self):
         channel = await self.service.channel()
         self.exchange = await channel.declare_exchange(
-            name="amq.topic",
-            type=aio_pika.ExchangeType.TOPIC,
-            durable=True,
+            name="amq.topic", type=aio_pika.ExchangeType.TOPIC, durable=True
         )
         await super().start()
 
@@ -57,3 +58,14 @@ class AmqpLogHandler(AsyncHandler):
             routing_key=routing_key,
         )
 
+
+def decode(message: aio_pika.Message):
+    ctype = message.content_type
+    cenc = message.content_encoding
+    body = message.body
+    if cenc == "gzip":
+        body = gzip.decompress(body)
+    if ctype == "application/json":
+        return json.loads(body)
+    if ctype == "application/msgpack" or ctype == "application/x-msgpack":
+        return msgpack.loads(body, raw=False)

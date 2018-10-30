@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="samp20-asyncservice",
-    version="1.1.0",
+    version="1.1.1",
     author="Sam Partridge",
     description="Base to build microservices upon",
     long_description=long_description,

@@ -5,13 +5,13 @@ import os
 
 
 class HttpServer:
-    def __init__(self, config):
-        self.path = config.get("path")
-        self.user = config.get("user")
-        self.group = config.get("group")
-        self.permissions = config.get("permissions")
-        self.host = config.get("host", "localhost")
-        self.port = int(config.get("port", 8080))
+    def __init__(self, path=None, user=None, group=None, permissions=None, host="localhost", port=8080, **kwargs):
+        self.path = path
+        self.user = user
+        self.group = group
+        self.permissions = permissions
+        self.host = host
+        self.port = port
 
     async def start(self):
         loop = asyncio.get_running_loop()

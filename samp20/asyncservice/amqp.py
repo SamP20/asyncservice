@@ -69,3 +69,18 @@ def decode(message: aio_pika.Message):
         return json.loads(body)
     if ctype == "application/msgpack" or ctype == "application/x-msgpack":
         return msgpack.loads(body, raw=False)
+
+def encode(data, **kwargs):
+    data = msgpack.packb(data, use_bin_type=True)
+    return aio_pika.Message(
+        body=data,
+        content_type="application/msgpack",
+        **kwargs
+    )
+
+async def topic_exchange(channel):
+    return await channel.declare_exchange(
+        name="amq.topic",
+        type=aio_pika.ExchangeType.TOPIC,
+        durable=True,
+    )

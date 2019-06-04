@@ -13,5 +13,5 @@ setup(
     url="https://github.com/SamP20/asyncservice",
     python_requires="~=3.7",
     packages=find_namespace_packages(),
-    install_requires=["msgpack", "aio_pika"],
+    install_requires=["msgpack", "aio_pika", "aiohttp"],
 )

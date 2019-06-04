@@ -1,4 +1,4 @@
--r libs/amqpservice/requirements.txt
--r libs/asynclogger/requirements.txt
--r libs/asyncrunner/requirements.txt
--r libs/httpserver/requirements.txt
+-e libs/asyncrunner
+-e libs/asynclogger
+-e libs/amqpservice
+-e libs/httpserver

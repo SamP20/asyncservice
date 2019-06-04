@@ -1,15 +1,4 @@
-Asyncio service
+Asynchronous services
 ==============
 
-Base to build microservices upon.
-
-Version history
----------------
-
-### 1.2.0
-
-Change HttpServer to accept keyword args instead of a dict
-
-### 1.0.0
-
-* Initial release
+This is a collection of useful asynchronous service components which can be combined together to build applications

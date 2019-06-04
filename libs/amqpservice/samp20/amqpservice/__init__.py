@@ -1,6 +1,6 @@
 import aio_pika
 import logging
-from .logger import AsyncHandler, DictFormatter
+from samp20.asynclogger import AsyncHandler, DictFormatter
 import gzip
 import json
 import msgpack

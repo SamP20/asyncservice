@@ -36,3 +36,21 @@ class HttpServer:
 
     async def handle_request(self, request):
         raise NotImplementedError()
+
+
+def normalize_path(raw_path: str):
+    segments = raw_path.split('/')
+    resolved = []
+    for segment in segments:
+        if segment == "..":
+            if resolved:
+                resolved.pop()
+        elif segment != ".":
+            resolved.append(segment)
+    # Remove any null segments or trailing slashes, even though they're technically different paths
+    resolved = [r for r in resolved if len(r)]
+    norm_path = "/" + "/".join(resolved)
+    if norm_path != raw_path:
+        raise web.HTTPMovedPermanently(location=norm_path)
+    return resolved
+
